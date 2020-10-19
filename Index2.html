@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Aquí agregamos un archivo CSS para cambiar el diseño de nuestra página -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Así se pone el titulo de la página que te aparece en la pestaña -->
+    <title>Reto Master Semana 4</title>
+</head>
+<!-- El en body se pone todo lo que se mostrará en la página -->
+<body>
+    <!-- Titulo o encabezado de la página visible al usuario -->
+    <h1 id="titulo" class="titulo-class">Cómo saber a qué marca se parece tu carro?</h1>
+    <!-- Así pones un parrafo para dar instrucciones a usuario -->
+    <p id="instrucciones" class="Instrucciones-class">
+        Añade una URL de la foto de tu carro. Porfas <br>
+        No olvides darle en el botón de Analizar <br>
+    </p>
+
+    <!-- Aquí construyes el formulario -->
+    <form id="MyForm" class="MyFroms-class">
+        <!-- Espacio de texto para la URL -->
+        <input id="url" type="url" placeholder="URL de la imagen">
+        <!-- Botón para mandar la INFO -->
+        <button type="button" onclick="sendToPrediction()">Analizar</button>
+    </form>
+
+    <!-- Aquí va a caer el resultado de la API -->
+    <p id="result_space" class="Result-Class" ></p>
+
+</body>
+</html>
+
+<!-- Es necesaria esta linea para usar jquery que lo usaremos para llamar a nuestra API -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    function sendToPrediction() {
+            const url = document.getElementById("url").value;
+            $.ajax({
+                url:"[AQUI VA LA URL QUE DA AZURE]",
+                beforeSend: function(xhrObj)  {
+                    xhrObj.setRequestHeader("Content-Type","application/json");
+                    xhrObj.setRequestHeader("Prediction-Key","[AQUI VA TU CONTRASEÑA]");
+                },  
+                type:"POST",
+                data:'{"URL": "' + url + '"}"',
+            })
+            .done(function(data) {
+                console.log(data.predictions);
+                var majorElement = "";
+                var majorProbability = 0;
+                data.predictions.forEach(element =>{
+                    if(majorProbability < element.probability) {
+                        majorProbability = element.probability
+                        majorElement = element.tagName
+                    }
+                });
+                
+                const finalPrediction = round(majorProbability * 100);
+
+                switch (majorElement) {
+                    case "VolksWagen":
+                        document.getElementById("result_space").innerHTML = "La probabilidad de que esto sea un VolksWages es de:  " + finalPrediction + " % "
+                        break;
+                    case "Tesla":
+                        document.getElementById("result_space").innerHTML = "La probabilidad de que esto sea un Tesla es de: " + finalPrediction + " % "
+                        break;
+                    default:
+                        document.getElementById("result_space").innerHTML = "Estás loko, bro "
+                } 
+  
+            })
+            .fail(function(){
+                document.getElementById("result_space").innerHTML = "ERROR en ejecución"
+            })
+            
+        }
+            function round(num, decimales =2){
+                var signo = (num >=0 ? 1 : -1);
+                num = num * signo;
+                if (decimales === 0)
+                    return signo * Math.round(num)
+        
+                num = num.toString().split('e');
+                num = Math.round(+(num[0] + 'e' + (num[1] ? (+num[1] + decimales) : decimales ) ) );
+        
+                num= num.toString().split('e');
+                return num = Math.round(+(num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales ) ) );
+                
+            }
+            
+    
+</script>

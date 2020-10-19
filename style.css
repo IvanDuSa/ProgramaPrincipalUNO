@@ -1,0 +1,48 @@
+.titulo-class {
+    color:whitesmoke;
+    background-color: black;
+    text-align:center;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 15px;
+    margin: 80px;
+}
+
+.Instrucciones-class {
+    color: rgb(238, 255, 0);
+    background-color: rgb(12, 4, 124);
+    text-align:center;
+    font-weight: 400;
+    padding: 10px;
+    margin: 75px;
+}
+
+.MyFroms-class {
+    color: white;
+    background-color: rgb(34, 34, 34);
+    text-align:center;
+    border-bottom-style: rgb(255, 0, 191);
+    border-bottom-color: rgb(255, 0, 191);
+    padding: 20px;
+    border-radius: 3px;
+    border-bottom: 3px;
+    margin: 70px;
+}
+
+.Result-Class {
+    color: #00f7ff;
+    background-color: rgb(0, 0, 0);
+    font-weight: 400;
+    text-align:center;
+    padding: 10px;
+    margin: 75px;
+}
+    body{
+        margin: 0;
+        padding: 0;
+        background: url(Portada.jpg);   
+        background-size: cover;
+        background-position: center;
+        font-family: sans-serif;
+    }
+}
+
